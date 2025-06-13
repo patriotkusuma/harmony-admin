@@ -1,5 +1,7 @@
 # Harmony Laundry
 
+![Alt text for the image](public/screenshoots/Screenshot 2025-06-13 094901.png)
+
 Aplikasi untuk memudahkan management serta pengelolaan laundy.
 Fitur:
 

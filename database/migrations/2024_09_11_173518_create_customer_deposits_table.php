@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('customer_deposits', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('id_deposit')->constrained('deposits','id','deposit_key')->onUpdate('casecade')->onDelete('casecade');
+            $table->foreignUuid('id_deposit');
             $table->float('total_deposit')->default(0);
             $table->dateTime('tanggal_deposit');
             $table->text('keterangan')->nullable();

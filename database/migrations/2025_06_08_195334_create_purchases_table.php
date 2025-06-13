@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignUuid('id_transaction');
             $table->date('purchase_date');
             $table->string('item_name');
-            $table->int('quantity');
+            $table->integer('quantity');
             $table->foreignUuid('id_unit');
             $table->double('total_amount', 15, 2)->default(0.00);
             $table->enum('type',['Operasional','Investasi','Persediaan','Lainnya'])->default('Lainnya');

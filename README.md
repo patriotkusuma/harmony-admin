@@ -7,7 +7,8 @@ Fitur:
 -   Management Karyawan
 -   Pos System
 -   Multi User
-
+-   Multi Outlet
+-   User Role per Outlet
 
 ##  Todo List
 -   Menambahkan Fitur Akuntansi

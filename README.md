@@ -1,6 +1,6 @@
 # Harmony Laundry
 
-![Alt text for the image](public/screenshoots/Screenshot 2025-06-13 094901.png)
+[![Alt text for the image](https://github.com/patriotkusuma/harmony-admin/blob/main/public/screenshoots/Screenshot%202025-06-13%20094901.png?raw=true)]
 
 Aplikasi untuk memudahkan management serta pengelolaan laundy.
 Fitur:

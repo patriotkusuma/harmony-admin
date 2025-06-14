@@ -18,7 +18,7 @@ import {
     ModalHeader,
     Row,
 } from "reactstrap";
-import QrScanner from '@yudiel/react-qr-scanner/lib/esm/components/QrScanner';
+// import QrScanner from '@yudiel/react-qr-scanner/lib/esm/components/QrScanner';
 import { useForm } from "@inertiajs/react";
 import QRCode from "react-qr-code";
 import AddComma from "@/Components/Custom/Services/AddComma";
@@ -148,14 +148,14 @@ const Index = (props) => {
                     <Col md="4">
                         <Card>
                             <CardBody>
-                                <QrScanner
+                                {/* <QrScanner
                                     onResult={(result) =>
                                         updateResult(result.text)
                                     }
                                     constraints={{
                                         facingMode: "environment",
                                     }}
-                                />
+                                /> */}
                                 <br />
                                 <FormGroup>
                                     <InputGroup>

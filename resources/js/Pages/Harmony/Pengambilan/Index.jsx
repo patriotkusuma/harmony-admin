@@ -18,7 +18,7 @@ import {
     ModalHeader,
     Row,
 } from "reactstrap";
-import { QrScanner } from "@yudiel/react-qr-scanner";
+import QrScanner from '@yudiel/react-qr-scanner'; // ✅
 import { useForm } from "@inertiajs/react";
 import QRCode from "react-qr-code";
 import AddComma from "@/Components/Custom/Services/AddComma";

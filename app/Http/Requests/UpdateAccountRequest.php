@@ -22,7 +22,12 @@ class UpdateAccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => 'required',
+            'account_name' => 'required',
+            'account_type' => 'required',
+            'initial_balance' => 'required',
+            'current_balance' => 'required',
+            'description' => '',
         ];
     }
 }

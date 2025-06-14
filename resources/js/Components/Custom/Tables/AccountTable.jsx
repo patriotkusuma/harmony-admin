@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Card, CardHeader, Col, Row, Table } from 'reactstrap'
 
 const AccountTable = props => {
-    const {togggleCreate, accounts,user, children} = props
+    const {toggleTambah, accounts,user, children} = props
     return (
         <>
             <Card>
@@ -14,7 +14,7 @@ const AccountTable = props => {
                             <Button
                                 color='primary'
                                 size='md'
-                                onClick={togggleCreate}
+                                onClick={()=>toggleTambah()}
                             >
                                 <i className='fa-solid fa-file-circle-plus mr-2'></i>
                                 Tambah Baru
@@ -55,6 +55,5 @@ const AccountTable = props => {
     )
 }
 
-AccountTable.propTypes = {}
 
 export default AccountTable

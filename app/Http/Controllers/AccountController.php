@@ -48,7 +48,7 @@ class AccountController extends Controller
 
         Account::create($validatedData);
 
-        return redirect()->route('accounts.index')->with('success', 'Akun berhasil dibuat.');
+        return redirect()->route('account.index')->with('success', 'Akun berhasil ditambahkan.');
     }
 
     /**
@@ -76,8 +76,21 @@ class AccountController extends Controller
      */
     public function update(UpdateAccountRequest $request, Account $account)
     {
-        $account->update($request->validated());
-        return redirect()->route('accounts.index')->with('success', 'Akun berhasil diperbarui.');
+        // $account->update($request->validated());
+        $account->update([
+            'account_name' => $request->account_name,
+            'account_type' => $request->account_type,
+            'initial_balance' => $request->initial_balance,
+            'current_balance' => $request->current_balance,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('account.index')->with('success', 'Akun berhasil diperbarui.');
+        //  session()->flash('flash', [
+        //     'type' => 'success',
+        //     'message' => 'Data akun berhasil diperbarui!',
+        // ]);
+        // return response()->noContent();
     }
 
     /**
@@ -86,6 +99,6 @@ class AccountController extends Controller
     public function destroy(Account $account)
     {
         $account->delete();
-        return redirect()->route('accounts.index')->with('success', 'Akun berhasil dihapus.');
+        return redirect()->route('account.index')->with('success', 'Akun berhasil dihapus.');
     }
 }

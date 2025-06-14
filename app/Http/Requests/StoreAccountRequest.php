@@ -22,7 +22,11 @@ class StoreAccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'account_name' => 'required',
+            'account_type' => 'required|in:Assets,Liability,Equity,Revenue,Expense',
+            'initial_balance' => 'required',
+            'current_balance' => 'required',
+            'description' => ''
         ];
     }
 }

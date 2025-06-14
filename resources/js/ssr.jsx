@@ -2,7 +2,9 @@ import ReactDOMServer from 'react-dom/server';
 import { createInertiaApp } from '@inertiajs/react';
 import createServer from '@inertiajs/react/server';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import route from '../../vendor/tightenco/ziggy/dist/index.m';
+
+import route from 'ziggy-js';
+import { Ziggy } from './ziggy'; // hasil generate ziggy
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -15,8 +17,8 @@ createServer((page) =>
         setup: ({ App, props }) => {
             global.route = (name, params, absolute) =>
                 route(name, params, absolute, {
-                    ...page.props.ziggy,
-                    location: new URL(page.props.ziggy.location),
+                    ...Ziggy,
+                    location: new URL(Ziggy.location),
                 });
 
             return <App {...props} />;

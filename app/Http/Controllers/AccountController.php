@@ -5,19 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests\UpdateAccountRequest;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+
 
 class AccountController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = Account::orderBy('account_name')->paginate(10)->withQueryString();
+        $filter  = $request->only(['search', 'account_type', 'per_page', 'page']);
+
+        $perPage = $request->input('per_page', 10); // default 10 jika tidak ada
+
+        $accounts = Account::filter($filter)
+            ->orderBy('account_name')
+            ->paginate($perPage)
+            ->withQueryString();
+        // $accounts = Account::orderBy('account_name')->paginate(10)->withQueryString();
+        $balanceByTypes = DB::table('accounts')
+            ->select('account_type', DB::raw('SUM(current_balance) as total_balance'))
+            ->groupBy('account_type')
+            ->pluck('total_balance', 'account_type');
 
         return Inertia::render('Harmony/Account/Index', [
             'accounts' => $accounts,
+            'filters' => $filter,
+            'balanceByTypes' => $balanceByTypes,
         ]);
     }
 

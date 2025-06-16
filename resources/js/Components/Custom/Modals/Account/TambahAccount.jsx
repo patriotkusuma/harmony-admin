@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { resetWarningCache } from 'prop-types';
 import { useForm, router } from '@inertiajs/react';
 import { Button, Col, Form, FormFeedback, FormGroup, Input, Label, Modal, Row } from 'reactstrap';
 import { NumericFormat } from 'react-number-format';
 
 const TambahAccount = ({ isModalOpen, filteredData, toggleModal }) => {
-    const { data, setData, patch, processing, post, errors } = useForm({
+    const { data, setData, patch, processing, post, errors, reset } = useForm({
         id: filteredData?.id || '',
         account_name: filteredData?.account_name || '',
         account_type: filteredData?.account_type || '',
@@ -34,7 +34,7 @@ const TambahAccount = ({ isModalOpen, filteredData, toggleModal }) => {
 
         const onSuccess = () => {
             toggleModal();
-            router.reload({ only: ['accounts'] });
+            reset()
         };
 
         const onError = (err) => {

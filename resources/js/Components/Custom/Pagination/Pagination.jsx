@@ -37,7 +37,7 @@ const Pagination = ({currentPage,rowPerPage, totalPosts, onPageChange, previousP
 
                 if(pageNumber === DOTS){
                     return (
-                        <PaginationItem >
+                        <PaginationItem key={index} disabled >
                             ....
                         </PaginationItem>
                     )

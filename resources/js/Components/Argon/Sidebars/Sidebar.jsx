@@ -565,6 +565,22 @@ const Sidebar = (props) => {
                                         Account
                                     </NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        href={route("asset.index")}
+                                        tag={Link}
+                                        active={route().current("asset.*")}
+                                        className={
+                                            route().current("asset.*")
+                                            ? "bg-teal text-default"
+                                            : ""
+                                        }
+                                        >
+                                        <i class="fa-solid fa-building-columns text-primary"></i>
+
+                                        Assets
+                                    </NavLink>
+                                </NavItem>
 
                             </>
                         )}

@@ -4,11 +4,11 @@ import Header from '@/Components/Argon/Headers/Header'
 import { Card, CardBody, CardTitle, Col, Row } from 'reactstrap'
 import AddComma from '@/Components/Custom/Services/AddComma'
 
-const AccountHeader = props => {
+const AccountHeader = ({totalBalance}) => {
   return (
     <>
         <Header>
-            <Col lg="6" xl="2">
+            <Col lg="6" xl="3">
                 <Card className='card-stats mb-4 mb-xl-0'>
                     <CardBody>
                         <Row>
@@ -20,7 +20,7 @@ const AccountHeader = props => {
                                     Assets
                                 </CardTitle>
                                 <span className='h2 font-weight-bold mb-0'>
-                                    <AddComma value={0}/>
+                                    <AddComma value={totalBalance?.Assets || 0}/>
                                 </span>
                             </div>
                             <Col className="col-auto">
@@ -32,7 +32,7 @@ const AccountHeader = props => {
                     </CardBody>
                 </Card>
             </Col>
-            <Col lg="6" xl="2">
+            <Col lg="6" xl="3">
                 <Card className='card-stats mb-4 mb-xl-0'>
                     <CardBody>
                         <Row>
@@ -44,7 +44,7 @@ const AccountHeader = props => {
                                     Liability
                                 </CardTitle>
                                 <span className='h2 font-weight-bold mb-0'>
-                                    <AddComma value={0}/>
+                                    <AddComma value={totalBalance?.Liability || 0}/>
                                 </span>
                             </div>
                             <Col className="col-auto">
@@ -56,7 +56,7 @@ const AccountHeader = props => {
                     </CardBody>
                 </Card>
             </Col>
-            <Col lg="6" xl="2">
+            <Col lg="6" xl="3">
                 <Card className='card-stats mb-4 mb-xl-0'>
                     <CardBody>
                         <Row>
@@ -68,7 +68,7 @@ const AccountHeader = props => {
                                     Equity
                                 </CardTitle>
                                 <span className='h2 font-weight-bold mb-0'>
-                                    <AddComma value={0}/>
+                                    <AddComma value={totalBalance?.Equity || 0}/>
                                 </span>
                             </div>
                             <Col className="col-auto">
@@ -80,7 +80,7 @@ const AccountHeader = props => {
                     </CardBody>
                 </Card>
             </Col>
-            <Col lg="6" xl="2">
+            <Col lg="6" xl="3">
                 <Card className='card-stats mb-4 mb-xl-0'>
                     <CardBody>
                         <Row>
@@ -92,7 +92,7 @@ const AccountHeader = props => {
                                     Revenue
                                 </CardTitle>
                                 <span className='h2 font-weight-bold mb-0'>
-                                    <AddComma value={0}/>
+                                    <AddComma value={totalBalance?.Revenue || 0}/>
                                 </span>
                             </div>
                             <Col className="col-auto">
@@ -104,7 +104,7 @@ const AccountHeader = props => {
                     </CardBody>
                 </Card>
             </Col>
-            <Col lg="6" xl="2">
+            <Col lg="6" xl="3">
                 <Card className='card-stats mb-4 mb-xl-0'>
                     <CardBody>
                         <Row>
@@ -116,7 +116,7 @@ const AccountHeader = props => {
                                     Expense
                                 </CardTitle>
                                 <span className='h2 font-weight-bold mb-0'>
-                                    <AddComma value={0}/>
+                                    <AddComma value={totalBalance.Expense || 0}/>
                                 </span>
                             </div>
                             <Col className="col-auto">

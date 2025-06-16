@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Asset\StoreAssetRequest;
+use App\Http\Requests\Asset\UpdateAssetRequest;
 use App\Models\Asset;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -38,9 +40,20 @@ class AssetsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAssetRequest $request)
     {
-        //
+        $validatedData = ($request->validated());
+
+        if(isset($validatedData['purchase_price'])){
+            $validatedData['purchase_price'] = $validatedData['purchase_price'];
+        }else{
+            $validatedData['purchase_price'] = $validatedData['purchase_price'] ?? 0.00;
+            $validatedData['salvage_value'] = $validatedData['salvage_value'];
+        }
+
+        Asset::create($validatedData);
+
+        return redirect()->route('asset.index')->with('success', 'Aset berhasil ditambahkan');
     }
 
     /**
@@ -62,9 +75,24 @@ class AssetsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Asset $asset)
+    public function update(UpdateAssetRequest $request, Asset $asset)
     {
-        //
+        $asset->update([
+            'id_outlet' => $request->id_outlet,
+            'asset_name' => $request->asset_name,
+            'purchase_date' => $request->purchase_date,
+            'purchase_price' => $request->purchase_price,
+            'depreciation_method' => $request->depreciation_method,
+            'usefull_live_years' => $request->usefull_live_years,
+            'salvage_value' => $request->salvage_value,
+            'accumulated_depreciation' => $request->accumulated_depreciation,
+            'current_book_value' => $request->current_book_value,
+            'description' => $request->description,
+            'status' => $request->status,
+            'last_depreciation_date' => $request->last_depreciation_date
+        ]);
+
+        return redirect()->route('asset.index')->with('success', 'Aset berhasil diubah');
     }
 
     /**
@@ -72,6 +100,7 @@ class AssetsController extends Controller
      */
     public function destroy(Asset $asset)
     {
-        //
+        $asset->delete();
+        return redirect()->route('asset.index')->with('success','Data aset berhasil dihapus');
     }
 }

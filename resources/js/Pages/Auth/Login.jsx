@@ -28,7 +28,7 @@ export default function Login({status, canResetPassword}) {
     <>
         <GuestLayout>
             <Col lg="5" md="7" >
-                <Card className='bg-secondary shadow border-0'>
+                <Card className='bg-default shadow border-0'>
                     <CardHeader className='bg-transparent pb-5'>
                         {status &&
                         <Alert color="warning">
@@ -85,8 +85,10 @@ export default function Login({status, canResetPassword}) {
 
                         <Form role='form' onSubmit={submit}>
                             <FormGroup className='mb-3'>
-                                <InputGroup className='input-group-alternative'>
-                                    <InputGroupText>
+                                <InputGroup className='input-group-alternative bg-dark'>
+                                    <InputGroupText
+                                        className='bg-dark text-white'
+                                    >
                                         <i className='ni ni-email-83'/>
                                     </InputGroupText>
                                     <Input
@@ -98,7 +100,7 @@ export default function Login({status, canResetPassword}) {
                                         type='email'
                                         autoComplete='username'
                                         onChange={(e) => setData('email', e.target.value)}
-                                        className={errors.email ? 'is-invalid' : ''}
+                                        className={`bg-dark text-white ${errors.email ? 'is-invalid' : ''}`}
                                         valid={errors.email && true}
                                     />
 
@@ -112,7 +114,9 @@ export default function Login({status, canResetPassword}) {
                             </FormGroup>
                             <FormGroup>
                                 <InputGroup className='input-group-alternative'>
-                                    <InputGroupText>
+                                    <InputGroupText
+                                        className='bg-dark text-white'
+                                    >
                                         <i className='ni ni-lock-circle-open'/>
                                     </InputGroupText>
                                     <Input
@@ -123,6 +127,7 @@ export default function Login({status, canResetPassword}) {
                                         type={showPassword ? 'text' : 'password'}
                                         autoComplete='new-password'
                                         onChange={(e) => setData('password', e.target.value)}
+                                        className={`bg-dark text-white ${errors.password ? 'is-invalid' : ''}`}
                                         invalid = {errors.password && true}
                                     />
                                     <Button

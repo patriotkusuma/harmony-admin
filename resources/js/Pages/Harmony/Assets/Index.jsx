@@ -4,6 +4,8 @@ import AdminLayout from '@/Layouts/AdminLayout'
 import { Head, router } from '@inertiajs/react'
 import React, { useState } from 'react'
 import { Container } from 'reactstrap'
+import moment from 'moment'
+import TambahAset from '@/Components/Custom/Modals/Asset/TambahAset'
 
 const Index = (props) => {
     const {auth, assets, filter:initialFilter={}} = props
@@ -56,11 +58,33 @@ const Index = (props) => {
                 assets={assets}
                 filter={filter}
                 onFilterChange={handleFilterChange}
-                toggleTambah={()=>openModal(null)}
+                toggleTambah={openModal}
             >
-
+                {assets?.data && assets.data.map((asset, index) => (
+                    <tr key={index}>
+                        <th scope='row' style={{maxWidth:'35px'}}>
+                            {(assets.current_page -1 ) * assets.per_page + index + assets.per_page + 1}
+                        </th>
+                        <td style={{
+                            maxWidth: '480px',
+                            whiteSpace: 'normal',
+                            wordBreak: 'break-word',
+                        }} title={asset.asset_name}>
+                            {asset.asset_name}
+                        </td>
+                        <td>{moment(asset.purchase_date, 'DD MMMM YYYY')}</td>
+                        <td><AddComma value={asset?.purchase_price || 0} /></td>
+                    </tr>
+                ))}
             </AssetTable>
         </Container>
+
+        <TambahAset
+            isModalOpen={isModalOpen}
+            selectedData={editedData}
+            toggleModal={closeModal}
+            key={editedData?.id || Math.random()}
+        />
     </AdminLayout>
   )
 }

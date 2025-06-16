@@ -43,6 +43,9 @@ Route::get('/assets/{path}', function ($path) {
 Route::get('/route-list', function(){
     return dd(Route::getRoutes());
 });
+
+Route::get('/outlet-search', [\App\Http\Controllers\OutletController::class, 'search'])->name('outlet.search');
+
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified', 'checkRole', 'userStatus'])->name('dashboard');

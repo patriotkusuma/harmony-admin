@@ -23,7 +23,7 @@ const AssetTable = ({onFilterChange, filter,assets,children, toggleTambah}) => {
                         <Button
                             color='primary'
                             size='md'
-                            // onClick={()=>toggleTambah()}
+                            onClick={toggleTambah}
                         >
                             <i className='fa-solid fa-file-circle-plus mr-2'></i>
                             Tambah Baru
@@ -54,10 +54,11 @@ const AssetTable = ({onFilterChange, filter,assets,children, toggleTambah}) => {
                     <tr>
                         <th scope="col">No</th>
                         <th scope="col">Nama Aset</th>
+                        <th scope="col">Outlet</th>
                         <th scope="col">Tanggal Beli</th>
-                        <th scope="col">Value</th>
-                        <th scope="col">Current Balance</th>
-                        <th scope="col">Keterangan</th>
+                        <th scope="col">Harga Perolehan</th>
+                        <th scope="col">Nilai Buku</th>
+                        <th scope="col">Status Aset</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>

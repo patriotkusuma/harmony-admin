@@ -7,6 +7,7 @@ use App\Http\Requests\StoreOutletRequest;
 use App\Http\Requests\UpdateOutletRequest;
 use App\Models\Jabatan;
 use App\Models\Pegawai;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -111,5 +112,15 @@ class OutletController extends Controller
     public function destroy(Outlet $outlet)
     {
         //
+    }
+
+    public function search(Request $request){
+        $search = $request->query('search-outlet');
+
+        $outlets = Outlet::where('nama', 'like', '%' . $search . '%')
+            ->select('id', 'nama')
+            ->limit(10)
+            ->get();
+        return response()->json($outlets);
     }
 }

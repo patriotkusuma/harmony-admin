@@ -1,8 +1,8 @@
 import AdminLayout from '@/Layouts/AdminLayout'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import React, { useState } from 'react'
-import { TRUE } from 'sass'
-
+import { Container } from 'reactstrap'
+import SupplierHeader from './SupplierHeader'
 const Index = (props) => {
     const {auth, suppliers, filters:initialFilter={}} = props
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -26,12 +26,12 @@ const Index = (props) => {
         setIsModalOpen(false)
     }
 
-    openDeleteModal = (selectedData) => {
+    const openDeleteModal = (selectedData) => {
         setSelectedDelete(selectedData)
         setIsDeleteModalOpen(true)
     }
 
-    closeDeleteModal = ()=> {
+    const closeDeleteModal = ()=> {
         setSelectedDelete(null)
         setIsDeleteModalOpen(false)
     }
@@ -46,7 +46,12 @@ const Index = (props) => {
         })
     }
     return (
-        <AdminLayout>
+        <AdminLayout user={auth.user} header={"Management Supplier"}>
+            <Head title='Management Supplier' />
+            <SupplierHeader />
+            <Container fluid className='mt--7 min-vh-100'>
+
+            </Container>
 
         </AdminLayout>
     )

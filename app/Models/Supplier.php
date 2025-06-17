@@ -27,7 +27,7 @@ class Supplier extends Model
         'telphone' => 'string',
         'email' => 'string',
         'address' => 'string',
-    ]
+    ];
 
     public function scopeFilter(Builder $query, array $filters)
     {

@@ -11,7 +11,7 @@ const TambahAset = ({isModalOpen, selectedData, toggleModal, }) => {
         id: selectedData?.id || '',
         id_outlet: selectedData?.id_outlet || '',
         asset_name: selectedData?.asset_name || '',
-        purchase_date: selectedData?.purchase_date || '',
+        purchase_date: selectedData?.purchase_date || moment().format('YYYY-MM-DD'),
         purchase_price: selectedData?.purchase_price != null ? parseFloat(selectedData.purchase_price).toFixed(2) : '',
         depreciation_method: selectedData?.depreciation_method || '',
         usefull_live_years: selectedData?.usefull_live_years != null ? parseInt(selectedData.usefull_live_years) : '',
@@ -68,7 +68,6 @@ const TambahAset = ({isModalOpen, selectedData, toggleModal, }) => {
 
     const loadOutlets = async (inputValue) => {
         const response = await fetch(`/outlet-search?search-outlet=${inputValue}`)
-        console.log(response)
         const data = await response.json()
 
         return data.map(outlet => ({
@@ -103,9 +102,9 @@ const TambahAset = ({isModalOpen, selectedData, toggleModal, }) => {
             console.log(errors)
         }
 
+        // console.log(data)
         if(selectedData){
-            alert('update')
-            // patch(route('asset.update', data.id), {onSuccess, onError})
+            patch(route('asset.update', data.id), {onSuccess, onError})
         }else{
             post(route('asset.store'), {onSuccess, onError})
         }
@@ -144,7 +143,7 @@ const TambahAset = ({isModalOpen, selectedData, toggleModal, }) => {
                             value={data.asset_name}
                             onChange={e => setData('asset_name', e.target.value)}
                             disabled={processing}
-                            invalid={!!errors.asset_name}
+                            invalid={errors.asset_name }
                             className='form-control bg-dark text-white border-0 font-weight-bold'
                             placeholder='Nama Aset'
                         />
@@ -156,6 +155,7 @@ const TambahAset = ({isModalOpen, selectedData, toggleModal, }) => {
                                 <Label for="id_outlet" className='font-weight-bold text-white'>Outlet</Label>
                                 <AsyncSelect
                                     id='id_outlet'
+                                    name='id_outlet'
                                     cacheOptions={true}
                                     defaultOptions
                                     loadOptions={loadOutlets}
@@ -218,7 +218,7 @@ const TambahAset = ({isModalOpen, selectedData, toggleModal, }) => {
                                     <Input
                                         id="purchase_date"
                                         name='purchase_date'
-                                        value={data?.purchase_date || moment()}
+                                        value={data?.purchase_date || moment().format('YYYY-MM-DD')}
                                         onChange={e=>setData('purchase_date',e.target.value)}
                                         disabled={processing}
                                         invalid={!!errors.purchase_date}
@@ -259,6 +259,7 @@ const TambahAset = ({isModalOpen, selectedData, toggleModal, }) => {
                                     value={data.salvage_value}
                                     customInput={Input}
                                     disabled={processing}
+                                    onValueChange={(values)=>setData('salvage_value', values.value)}
                                     prefix='Rp '
                                     className={`form-control bg-dark text-white border-0 ${errors.salvage_value ? 'is-invalid' : ''}`}
                                 />
@@ -276,6 +277,7 @@ const TambahAset = ({isModalOpen, selectedData, toggleModal, }) => {
                                     value={data.accumulated_depreciation}
                                     customInput={Input}
                                     disabled={processing}
+                                    onValueChange={(values)=> setData('accumulated_depreciation', values.value)}
                                     prefix='Rp '
                                     className={`form-control bg-dark text-white border-0 ${errors.accumulated_depreciation ? 'is-invalid' : ''}`}
                                 />
@@ -293,6 +295,7 @@ const TambahAset = ({isModalOpen, selectedData, toggleModal, }) => {
                                     value={data.current_book_value}
                                     customInput={Input}
                                     disabled={processing}
+                                    onValueChange={(values)=>setData('current_book_value', values.value)}
                                     prefix='Rp '
                                     className={`form-control bg-dark text-white border-0 ${errors.current_book_value ? 'is-invalid' : ''}`}
                                 />

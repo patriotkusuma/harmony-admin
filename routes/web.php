@@ -95,6 +95,7 @@ Route::middleware('auth','checkRole', 'userStatus')->group(function () {
     // Accounting
     Route::resource('account', \App\Http\Controllers\AccountController::class);
     Route::resource('asset', \App\Http\Controllers\AssetsController::class);
+    Route::resource('supplier', \App\Http\Controllers\SupplierController::class);
 
 });
 

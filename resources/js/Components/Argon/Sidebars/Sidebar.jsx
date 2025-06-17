@@ -581,6 +581,22 @@ const Sidebar = (props) => {
                                         Assets
                                     </NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        href={route("supplier.index")}
+                                        tag={Link}
+                                        active={route().current("supplier.*")}
+                                        className={
+                                            route().current("supplier.*")
+                                            ? "bg-teal text-default"
+                                            : ""
+                                        }
+                                        >
+                                        <i class="fas fa-truck text-primary"></i>
+
+                                        Supplier
+                                    </NavLink>
+                                </NavItem>
 
                             </>
                         )}

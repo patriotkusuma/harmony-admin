@@ -15,6 +15,7 @@ class Asset extends Model
 
     // Kolom yang boleh diisi secara massal
     protected $fillable = [
+        'id_outlet',
         'asset_name',
         'purchase_date',
         'purchase_price',
@@ -24,6 +25,8 @@ class Asset extends Model
         'accumulated_depreciation',
         'current_book_value',
         'description',
+        'status',
+        'last_depreciation_date'
     ];
 
     // Casting tipe data saat ambil/simpan dari/ke database
@@ -37,7 +40,14 @@ class Asset extends Model
         'accumulated_depreciation' => 'float',
         'current_book_value' => 'float',
         'description' => 'string',
+        'id_outlet' => 'string',
+        'last_depreciation_date' => 'date'
     ];
+
+    public function outlet()
+    {
+        return $this->belongsTo(Outlet::class, 'id_outlet','id');
+    }
 
     public function scopeFilter(Builder $query, array $filters)
     {

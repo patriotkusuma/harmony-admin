@@ -19,6 +19,7 @@ class AssetsController extends Controller
         $perPage = $request->input('per_page', 10);
 
         $assets = Asset::filter($filter)
+            ->with('outlet')
             ->orderBy('purchase_date')
             ->paginate($perPage)
             ->withQueryString();
@@ -42,14 +43,7 @@ class AssetsController extends Controller
      */
     public function store(StoreAssetRequest $request)
     {
-        $validatedData = ($request->validated());
-
-        if(isset($validatedData['purchase_price'])){
-            $validatedData['purchase_price'] = $validatedData['purchase_price'];
-        }else{
-            $validatedData['purchase_price'] = $validatedData['purchase_price'] ?? 0.00;
-            $validatedData['salvage_value'] = $validatedData['salvage_value'];
-        }
+        $validatedData = $request->validated();
 
         Asset::create($validatedData);
 

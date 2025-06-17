@@ -3,9 +3,13 @@ import AssetTable from '@/Components/Custom/Tables/AssetTable'
 import AdminLayout from '@/Layouts/AdminLayout'
 import { Head, router } from '@inertiajs/react'
 import React, { useState } from 'react'
-import { Container } from 'reactstrap'
+import { Button, Container } from 'reactstrap'
 import moment from 'moment'
 import TambahAset from '@/Components/Custom/Modals/Asset/TambahAset'
+import AddComma from '@/Components/Custom/Services/AddComma'
+import KonfirmasiHapus from '@/Components/Custom/Modals/Asset/KonfirmasiHapus'
+import StatusAssetStyle from './StatusAssetStyle'
+import AssetStatusBadge from '@/Components/Custom/Badge/AssetStatusBadge'
 
 const Index = (props) => {
     const {auth, assets, filter:initialFilter={}} = props
@@ -58,7 +62,7 @@ const Index = (props) => {
                 assets={assets}
                 filter={filter}
                 onFilterChange={handleFilterChange}
-                toggleTambah={openModal}
+                toggleTambah={()=>openModal(null)}
             >
                 {assets?.data && assets.data.map((asset, index) => (
                     <tr key={index}>
@@ -69,11 +73,33 @@ const Index = (props) => {
                             maxWidth: '480px',
                             whiteSpace: 'normal',
                             wordBreak: 'break-word',
+                            fontWeight: 'bold'
                         }} title={asset.asset_name}>
                             {asset.asset_name}
                         </td>
-                        <td>{moment(asset.purchase_date, 'DD MMMM YYYY')}</td>
-                        <td><AddComma value={asset?.purchase_price || 0} /></td>
+                        <td>
+                            <div>{asset?.outlet?.nama || ''}</div>
+                            <span>{asset?.outlet?.alamat || ''}</span>
+
+                        </td>
+                        <td>{moment(asset.purchase_date).format('DD MMMM YYYY')}</td>
+                        <td><AddComma    value={asset?.purchase_price || 0} /></td>
+                        <td><AddComma value={asset?.current_book_value || 0}/></td>
+                        <td><AssetStatusBadge status={asset?.status || ''} /></td>
+                        <td>
+                            <Button color='warning' size='sm' onClick={()=> openModal(asset)}>
+                                <i className='fas fa-edit' mr-1 ></i>
+                                Edit
+                            </Button>
+                            <Button
+                                color='danger'
+                                size='sm'
+                                onClick={()=>openDeleteModal(asset)}
+                            >
+                                <i className='fas fa-trash-alt mr-1'></i>
+                                Hapus
+                            </Button>
+                        </td>
                     </tr>
                 ))}
             </AssetTable>
@@ -84,6 +110,12 @@ const Index = (props) => {
             selectedData={editedData}
             toggleModal={closeModal}
             key={editedData?.id || Math.random()}
+        />
+        <KonfirmasiHapus
+            isOpen={isDeletedModalOpen}
+            item={selectedDelete}
+            toggle={closeDeleteModal}
+            key={selectedDelete?.id || Math.random()}
         />
     </AdminLayout>
   )

@@ -3,6 +3,7 @@ import { Head, router } from '@inertiajs/react'
 import React, { useState } from 'react'
 import { Container } from 'reactstrap'
 import SupplierHeader from './SupplierHeader'
+import SupplierTable from '@/Components/Custom/Tables/SupplierTable'
 const Index = (props) => {
     const {auth, suppliers, filters:initialFilter={}} = props
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -50,6 +51,15 @@ const Index = (props) => {
             <Head title='Management Supplier' />
             <SupplierHeader />
             <Container fluid className='mt--7 min-vh-100'>
+                <SupplierTable
+                    suppliers={suppliers}
+                    user={auth.user}
+                    toggleAdd={()=>openModal(null)}
+                    filter = {filters}
+                    onFilterChange = {handleFilterChange}
+                >
+
+                </SupplierTable>
 
             </Container>
 

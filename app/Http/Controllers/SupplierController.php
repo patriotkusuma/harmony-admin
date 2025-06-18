@@ -12,7 +12,18 @@ class SupplierController extends Controller
 {
     public function index(Request $request)
     {
-        return Inertia::render('Harmony/Supplier/Index');
+        $filter = $request->only(['search', 'supplier_type', 'per_page', 'page']);
+        $perPage = $request->input('per_page', 10);
+
+        $suppliers = Supplier::filter($filter)
+            ->orderBy('name')
+            ->paginate($perPage)
+            ->withQueryString();
+
+
+        return Inertia::render('Harmony/Supplier/Index', [
+            'suppliers' => $suppliers
+        ]);
 
     }
 

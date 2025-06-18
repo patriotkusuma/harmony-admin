@@ -155,6 +155,7 @@ class OrderCreated extends Command
                             $messageTagihan .="{$number}. {$payable->kode_pesan} pada tanggal . {$tanggalpesan}. sebesar *Rp {$tagihan}*\n";
                         }
 
+                        $messageTagihan.= "--------------------------------------------------\n\n";
                         $messageTagihan .= "Ditambah dengan tagihan sekarang\n";
                         $messageTagihan .= "1. {$kodePesan} pada tanggal . {$waktuPesanSekarang} . sebesar *Rp {$tagihanSekarang}\n";
                         $totalTagihan = $value->customer->pesananPayable->sum('total_harga');

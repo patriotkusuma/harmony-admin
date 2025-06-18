@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JenisCuci;
 use App\Http\Requests\StoreJenisCuciRequest;
 use App\Http\Requests\UpdateJenisCuciRequest;
+use App\Models\Account;
 use App\Models\CategoryPaket;
 use App\Models\Pegawai;
 use Carbon\Carbon;
@@ -87,12 +88,14 @@ class JenisCuciController extends Controller
      */
     public function edit(JenisCuci $jenisCuci)
     {
-        $jenisCuci = $jenisCuci->load('categoryPaket');
+        $jenisCuci = $jenisCuci->load('categoryPaket', 'serviceRevenueAccount.account');
+        $accounts = Account::where('account_type', 'Revenue')->get();
         $categoryPakets = CategoryPaket::all();
         // dd($jenisCuci);
         return Inertia::render('Harmony/JenisCuci/Edit',compact(
             'jenisCuci',
-            'categoryPakets'
+            'categoryPakets',
+            'accounts'
         ));
     }
 

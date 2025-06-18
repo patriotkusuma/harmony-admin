@@ -39,7 +39,7 @@ const SupplierTable = (props) => {
                     </div>
                     <div className='mt-3 justify-center align-items-center'>
                         <Row>
-                            <Col md="1" xs="12" className='w-100'>
+                            <Col md="2" xs="12" className='w-100'>
                                 <select
                                     className='form-control form-control-alternative form-select mr-3 w-100'
                                     id='per_page'
@@ -53,31 +53,36 @@ const SupplierTable = (props) => {
 
                                 </select>
                             </Col>
-                            <Col md="3" xs="12"className='w-100'>
-                                <select
-                                    className='form-control form-control-alternative form-select mr-3 w-100'
-                                    id='supplier_type'
-                                    name='supplier_type'
-                                    value={filter?.supplier_type || ''}
-                                    onChange={(e) => {onFilterChange({supplier_type: e.target.value, page: 1})}}
-                                >
-                                    <option value="">Supplier Type</option>
-                                    <option value="Online Marketplace">Online Marketplace</option>
-                                    <option value="Toko Fisik Retail">Toko Fisik Retail</option>
-                                    <option value="Distributor">Distributor</option>
-                                    <option value="Lainnya">Lainnya</option>
-                                </select>
-                            </Col>
-                            <Col md="3" xs="12" className='w-100 order-last'>
-                                <Input
-                                    className='form-control form-control-alternative mr-3 w-100'
-                                    id='search'
-                                    name='search'
-                                    value={filter?.search || ''}
-                                    onChange={(e) => {onFilterChange({search: e.target.value, page: 1})}}
-                                    type='text'
-                                    placeholder='Search...'
-                                />
+                            <Col md="10" xs="12"className='w-100 d-flex justify-content-end gap-2 flex-wrap'>
+                                <div style={{width:'25%'}}>
+                                    <select
+                                        className='form-control form-control-alternative form-select mr-3 w-100'
+                                        id='supplier_type'
+                                        name='supplier_type'
+                                        value={filter?.supplier_type || ''}
+                                        onChange={(e) => {onFilterChange({supplier_type: e.target.value, page: 1})}}
+                                    >
+                                        <option value="">Supplier Type</option>
+                                        <option value="Online Marketplace">Online Marketplace</option>
+                                        <option value="Toko Fisik Retail">Toko Fisik Retail</option>
+                                        <option value="Distributor">Distributor</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+                            {/* </Col> */}
+                            {/* <Col md="3" xs="12" className='w-100 d-flex justify-self-end me-auto'> */}
+                                <div style={{width: '25%'}}>
+
+                                    <Input
+                                        className='form-control form-control-alternative mr-3 w-100'
+                                        id='search'
+                                        name='search'
+                                        value={filter?.search || ''}
+                                        onChange={(e) => {onFilterChange({search: e.target.value, page: 1})}}
+                                        type='text'
+                                        placeholder='Search...'
+                                    />
+                                </div>
                             </Col>
                         </Row>
                     </div>

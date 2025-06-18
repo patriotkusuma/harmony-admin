@@ -22,9 +22,10 @@ import {
     Media,
     Row,
 } from "reactstrap";
+import ServiceJenisCuci from "@/Components/Custom/Card/ServiceJenisCuci";
 
 const Edit = (props) => {
-    const { jenisCuci, auth, flash, categoryPakets } = props;
+    const { jenisCuci, auth, flash, categoryPakets, accounts } = props;
     const [prevImage, setPrevImage] = useState(jenisCuci.gambar);
     const [image, setImage] = useState();
 
@@ -375,6 +376,11 @@ const Edit = (props) => {
                                     </Form>
                                 </CardBody>
                             </Card>
+
+                            <ServiceJenisCuci
+                                jenisCuci={jenisCuci}
+                                accounts={accounts}
+                            />
                         </Col>
                     </Row>
                 </Container>

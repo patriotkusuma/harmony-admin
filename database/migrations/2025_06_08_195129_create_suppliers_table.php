@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('contact person')->nullable();
+            $table->string('contact_person')->nullable();
             $table->string('telpone')->nullable();
             $table->string('email')->nullable();
             $table->text('address')->nullable();
+            $table->enum('supplier_type', ['Online Marketplace', 'Toko Fisik Retial','Distributor','Lainnya'])->default('Lainnya');
             $table->text('description')->nullable();
             $table->timestamps();
         });

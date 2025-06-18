@@ -57,7 +57,6 @@ Route::middleware('auth','checkRole', 'userStatus')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     Route::resource('jenis-cuci', \App\Http\Controllers\JenisCuciController::class);
     Route::post('jenic-cuci/{jenis_cuci}', [\App\Http\Controllers\JenisCuciController::class, 'updateImage'])->name('jenis-cuci-image.update');
     Route::resource('customers', \App\Http\Controllers\CustomerController::class);
@@ -96,7 +95,7 @@ Route::middleware('auth','checkRole', 'userStatus')->group(function () {
     Route::resource('account', \App\Http\Controllers\AccountController::class);
     Route::resource('asset', \App\Http\Controllers\AssetsController::class);
     Route::resource('supplier', \App\Http\Controllers\SupplierController::class);
-
+    Route::resource('service-revenue-account', \App\Http\Controllers\ServiceRevenueAccountController::class);
 });
 
 require __DIR__ . '/auth.php';

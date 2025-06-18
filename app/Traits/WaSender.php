@@ -34,8 +34,8 @@ trait WaSender
         curl_setopt_array($curl, array(
             // CURLOPT_URL => 'https://app.saungwa.com/api/create-message',
             // CURLOPT_URL => 'http://103.76.129.93:35456/send',
-            // CURLOPT_URL => 'https://wa.harmonylaundry.my.id/send',
-            CURLOPT_URL => 'https://wa.harmonylaundrys.com/send',
+            CURLOPT_URL => 'https://wa.harmonylaundry.my.id/send',
+            // CURLOPT_URL => 'https://wa.harmonylaundrys.com/send',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

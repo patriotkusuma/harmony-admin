@@ -180,7 +180,7 @@ class NotificationController extends Controller
                         }
                         $messageTagihan.= "--------------------------------------------------\n\n";
                         $messageTagihan .= "Ditambah dengan tagihan sekarang\n";
-                        $messageTagihan .= "1. {$kodePesan} pada tanggal . {$waktuPesanSekarang} . sebesar *Rp {$tagihanSekarang}\n";
+                        $messageTagihan .= "1. {$kodePesan} pada tanggal . {$waktuPesanSekarang} . sebesar *Rp {$tagihanSekarang}*\n";
                         $totalTagihan = $pesanan->customer->pesananPayable->sum('total_harga');
                         $totalDibayar = $pesanan->customer->pesananPayable->sum('paid');
                         $sisaTagihan = number_format(($totalTagihan - $totalDibayar),0,',','.');

@@ -39,6 +39,8 @@ class OrderCreated extends Command
                 ->get();
             // dd($orders);
 
+
+
             if(!empty($orders)){
                 foreach ($orders as $key => $value) {
                     $phone = !empty($value->customer->telpon)? $value->customer->telpon : '' ;
@@ -87,6 +89,9 @@ class OrderCreated extends Command
                         $estimasi = $waktuSelesai->locale('id')->translatedFormat('H:i l, j F Y');
                         // }
 
+
+
+
                         $message = $ucapan ." ".$panggilan." *". $value->customer->nama . "*,\n\n";
                         $message.= "Berikut kami informasikan detail pesanan anda\n\n";
                         $message.= "Nomor Pesanan : *" . $value->kode_pesan . "*\n";
@@ -130,7 +135,10 @@ class OrderCreated extends Command
 
                     //$cekPesan = $value->customer->pesananPayable()->where('kode_pesan', '!=', $value->kode_pesan)->get();
                     $kodePesan = $value->kode_pesan;
+                    $waktuPesanSekarang = Carbon::parse($value->tanggal_pesan)->locale('id')->translatedFormat('H:i l, j F Y');
                     $pesanPayable = $value->customer->pesananPayable($kodePesan)->get();
+                    $tagihanSekarang = number_format($vlaue->total_harga, '0', ',','.');
+                    $totalPesananSekarang = $value->total_harga;
                     if(!empty($pesanPayable) && count($pesanPayable)){
                         $messageTagihan = "";
                         $messageTagihan .="Berikut kami informasikan juga untuk tagihan sebelumnya\n\n";
@@ -141,9 +149,14 @@ class OrderCreated extends Command
                             if($payable->kode_pesan === $value->kode_pesan){
                                 continue;
                             }
+                            $waktu = Carbon::parse($payable->tangal_pesan);
+                            $tanggalpesan = $waktu->locale('id')->translatedFormat('H:i l, j F Y');
                             $tagihan = number_format(($payable->total_harga - $payable->paid),0, ',','.');
-                            $messageTagihan .="{$number}. {$payable->kode_pesan} sebesar *Rp {$tagihan}*\n";
+                            $messageTagihan .="{$number}. {$payable->kode_pesan} pada tanggal . {$tanggalpesan}. sebesar *Rp {$tagihan}*\n";
                         }
+
+                        $messageTagihan .= "Ditambah dengan tagihan sekarang";
+                        $messageTagihan .= "1. {$kodePesan} pada tanggal . {$waktuPesanSekarang} . sebesar *Rp {$tagihanSekarang}";
                         $totalTagihan = $value->customer->pesananPayable->sum('total_harga');
                         $totalDibayar = $value->customer->pesananPayable->sum('paid');
                         $sisaTagihan = number_format(($totalTagihan - $totalDibayar),0,',','.');

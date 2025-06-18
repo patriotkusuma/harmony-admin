@@ -137,7 +137,7 @@ class OrderCreated extends Command
                     $kodePesan = $value->kode_pesan;
                     $waktuPesanSekarang = Carbon::parse($value->tanggal_pesan)->locale('id')->translatedFormat('H:i l, j F Y');
                     $pesanPayable = $value->customer->pesananPayable($kodePesan)->get();
-                    $tagihanSekarang = number_format($vlaue->total_harga, '0', ',','.');
+                    $tagihanSekarang = number_format($value->total_harga, '0', ',','.');
                     $totalPesananSekarang = $value->total_harga;
                     if(!empty($pesanPayable) && count($pesanPayable)){
                         $messageTagihan = "";
@@ -155,8 +155,8 @@ class OrderCreated extends Command
                             $messageTagihan .="{$number}. {$payable->kode_pesan} pada tanggal . {$tanggalpesan}. sebesar *Rp {$tagihan}*\n";
                         }
 
-                        $messageTagihan .= "Ditambah dengan tagihan sekarang";
-                        $messageTagihan .= "1. {$kodePesan} pada tanggal . {$waktuPesanSekarang} . sebesar *Rp {$tagihanSekarang}";
+                        $messageTagihan .= "Ditambah dengan tagihan sekarang\n";
+                        $messageTagihan .= "1. {$kodePesan} pada tanggal . {$waktuPesanSekarang} . sebesar *Rp {$tagihanSekarang}\n";
                         $totalTagihan = $value->customer->pesananPayable->sum('total_harga');
                         $totalDibayar = $value->customer->pesananPayable->sum('paid');
                         $sisaTagihan = number_format(($totalTagihan - $totalDibayar),0,',','.');

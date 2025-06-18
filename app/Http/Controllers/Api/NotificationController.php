@@ -160,6 +160,8 @@ class NotificationController extends Controller
                     $cekPesan = $pesanan->customer->pesananPayable()->where('kode_pesan', '!=', $pesanan->kode_pesan)->get();
                     // dd(!empty($cekPesan) && count($cekPesan) > 0);
                     $kodePesan = $pesanan->kode_pesan;
+                    $waktuPesanSekarang = Carbon::parse($value->tanggal_pesan)->locale('id')->translatedFormat('H:i l, j F Y');
+                    $tagihanSekarang = number_format($value->total_harga, '0', ',','.');
                     // dd(count($pesanan->customer->pesananPayable($pesanan->kode_pesan)->get()));
                     if(!empty($pesanan->customer->pesananPayable($kodePesan)->get()) && count($pesanan->customer->pesananPayable($kodePesan)->get()) > 0){
                         $messageTagihan = "";
@@ -171,9 +173,13 @@ class NotificationController extends Controller
                             if($payable->kode_pesan === $pesanan->kode_pesan){
                                 continue;
                             }
+                            $waktu = Carbon::parse($payable->tangal_pesan);
+                            $tanggalpesan = $waktu->locale('id')->translatedFormat('H:i l, j F Y');
                             $tagihan = number_format(($payable->total_harga - $payable->paid),0, ',','.');
-                            $messageTagihan .="{$number}. {$payable->kode_pesan} sebesar *Rp {$tagihan}*\n";
+                            $messageTagihan .="{$number}. {$payable->kode_pesan} pada tanggal . {$tanggalpesan}. sebesar *Rp {$tagihan}*\n";
                         }
+                        $messageTagihan .= "Ditambah dengan tagihan sekarang\n";
+                        $messageTagihan .= "1. {$kodePesan} pada tanggal . {$waktuPesanSekarang} . sebesar *Rp {$tagihanSekarang}\n";
                         $totalTagihan = $pesanan->customer->pesananPayable->sum('total_harga');
                         $totalDibayar = $pesanan->customer->pesananPayable->sum('paid');
                         $sisaTagihan = number_format(($totalTagihan - $totalDibayar),0,',','.');

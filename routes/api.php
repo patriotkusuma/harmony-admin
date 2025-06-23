@@ -45,6 +45,7 @@ Route::domain("api.harmonylaundry.my.id")->group(function () {
         Route::resource('pakaian', \App\Http\Controllers\Api\DetailPakaianController::class);
         Route::resource('pelanggan', \App\Http\Controllers\Api\CustomerController::class);
         Route::get('pelanggan-bayar', [\App\Http\Controllers\Api\CustomerController::class, 'customerPayable'])->name('pelanggan.bayar');
+        Route::post('pesanan-bayar-auto', [\App\Http\Controllers\Api\PembayaranController::class, 'autoPembayaran'])->name('auto-pembayaran');
         Route::post('pesanan-bayar/{customer:id}', [\App\Http\Controllers\Api\PembayaranController::class, 'pesananBayar'])->name('pesanan.bayar');
         Route::post('/pelanggan-bayar/{pesanan:kode_pesan}', [\App\Http\Controllers\Api\PembayaranController::class, 'store'])->name('pembayaran-pelanggan');
 

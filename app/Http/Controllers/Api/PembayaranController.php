@@ -163,8 +163,9 @@ class PembayaranController extends Controller
         $timestamp = \Carbon\Carbon::parse($request->timestamp);
         $sender = $request->sender_number;
 
-        $notifikasi = Notifikasi::whereBetween('created_at', [
-            $timestamp->copy()->subMinutes(30), $timestamp->copy()->subMinutes(30)
+        $notifikasi = Notifikasi::whereBetween('timestamp', [
+            $timestamp->copy()->subMinutes(30),
+            $timestamp->copy()->addMinutes(30)
         ])->where('nominal', $nominal)->first();
 
         $customer = Customer::where('telpon', $sender)->first();

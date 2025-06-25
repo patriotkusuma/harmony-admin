@@ -126,6 +126,16 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        'webhook' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/webhook.log'),
+            'level' => 'debug',
+        ],
+        'whatsapp_message' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/whatsapp_message.log'),
+            'level' => 'debug'
+        ],
     ],
 
 ];

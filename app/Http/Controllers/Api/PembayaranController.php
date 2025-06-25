@@ -11,6 +11,8 @@ use App\Models\Pembayaran;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Log;
+
 
 class PembayaranController extends Controller
 {
@@ -71,16 +73,24 @@ class PembayaranController extends Controller
 
     public function pesananBayar(Request $request, Customer $customer)
     {
+        // dd($customer);
         try{
             $pesanan = Pesanan::where('id_pelanggan',$customer->id)->where('status_pembayaran', '!=', 'Lunas')->get();
 
             $bukti = '';
 
-            if($request->hasFile('bukti')){
-                $extension = $request->file('bukti')->extension();
-                $md5name = md5_file($request->file('bukti')->getRealPath());
-                $fileName = strtolower(str_replace(' ', '_', $customer->nama)) . $md5name . '.' . $extension;
-                $bukti = $request->file('bukti')->storeAs('/bukti', $fileName, 'uploads');
+            // if($request->hasFile('bukti')){
+            //     $extension = $request->file('bukti')->extension();
+            //     $md5name = md5_file($request->file('bukti')->getRealPath());
+            //     $fileName = strtolower(str_replace(' ', '_', $customer->nama)) . $md5name . '.' . $extension;
+            //     $bukti = $request->file('bukti')->storeAs('/bukti', $fileName, 'uploads');
+            // }
+            if ($request->hasFile('bukti') && $request->file('bukti')->isValid()) {
+                $file = $request->file('bukti');
+                $md5name = md5_file($file->getRealPath());
+                $filename = strtolower(str_replace(' ', '_', $customer->nama)) . '_' . $md5name . '.' . $file->extension();
+                $path = $file->storeAs('bukti', $filename, 'public');
+                $bukti = $path;
             }
 
             $tipePembayaran = $request->tipeBayar;
@@ -159,32 +169,78 @@ class PembayaranController extends Controller
     }
 
     public function autoPembayaran(Request $request) {
-        $nominal = floatval($request->nominal);
-        $timestamp = \Carbon\Carbon::parse($request->timestamp);
+        // if (!$request->hasFile('bukti')) {
+        //     return response()->json(['error' => 'Field bukti tidak ada atau bukan file'], 400);
+        // }
+    
+        // $file = $request->file('bukti');
+    
+        // return response()->json([
+        //     'originalName' => $file->getClientOriginalName(),
+        //     'mime' => $file->getClientMimeType(),
+        //     'size' => $file->getSize(),
+        //     'isValid' => $file->isValid(),
+        // ]);
+        $nominal = $request->nominal;
+        // $timestamp = \Carbon\Carbon::parse($request->timestamp);
+        $timestamp = \Carbon\Carbon::parse($request->timestamp)->timezone('Asia/Jakarta');
+        \Log::channel('webhook')->info('Timestamp setelah konversi ke WIB', [
+            'timestamp_wib' => $timestamp->toDateTimeString()
+        ]);
+        
+
         $sender = $request->sender_number;
+        Log::channel('webhook')->info('Webhook diterima', $request->all());
 
-        $notifikasi = Notifikasi::whereBetween('timestamp', [
-            $timestamp->copy()->subMinutes(30),
-            $timestamp->copy()->addMinutes(30)
-        ])->where('nominal', $nominal)->first();
 
-        $customer = Customer::where('telpon', $sender)->first();
+
+        \Log::channel('webhook')->info('Webhook Diterima', [
+            'nominal' => $nominal,
+            'timestamp' => $timestamp->toDateTimeString(),
+            'sender' => $sender
+        ]);
+    
+        $startTime = $timestamp->copy()->subMinutes(30);
+        $endTime = $timestamp->copy()->addMinutes(30);
+    
+        // Log range pencarian
+        \Log::channel('webhook')->info('Cari notifikasi antara', [
+            'start' => $startTime,
+            'end' => $endTime
+        ]);
+
+        $notifikasi = Notifikasi::whereBetween('timestamp', [$startTime, $endTime])
+        ->where('nominal', $nominal)
+        ->first();
+
+            
         if(!$notifikasi){
+            \Log::channel('webhook')->warning("Notifikasi tidak ditemukan", [
+                'nominal' => $nominal,
+                'range_start' => $startTime,
+                'range_end' => $endTime
+            ]);
             return response()->json([
-                'message'=> "Notifikasi "
+                'message'=> "Notifikasi Tidak ditemukan"
             ],404);
         }
-
+        $customer = Customer::where('telpon', $sender)->first();
+        
         if(!$customer){
             return response()->json([
                 'message' => 'Customer Tidak Ditemukan'
             ], 404);
         }
+        // Log::channel('webhook')->info('Customer Ditemukan', $customer);
+        Log::channel('webhook')->info("Customer ditemukan", ['customer' => $customer->toArray()]);
+
 
         $request->merge([
             'valueBayar' => $nominal,
             'tipeBayar' => 'QRIS'
         ]);
+
+        // dd($request);
 
         return $this->pesananBayar($request, $customer);
 

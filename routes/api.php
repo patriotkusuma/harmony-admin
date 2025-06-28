@@ -65,6 +65,7 @@ Route::domain("api.harmonylaundry.my.id")->group(function () {
 
         // Outlet
         Route::resource('outlet', \App\Http\Controllers\Api\OutletController::class);
+        Route::post('whatsapp/webhook', [\App\Http\Controllers\Api\WhatsappMessageController::class, 'store'])->name('whatsapp-store-message');
     });
 
 

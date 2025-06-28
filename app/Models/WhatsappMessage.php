@@ -15,6 +15,7 @@ class WhatsappMessage extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id',
         'message_id',
         'sender_no',
         'receiver_no',

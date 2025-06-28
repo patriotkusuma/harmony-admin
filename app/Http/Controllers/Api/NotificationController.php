@@ -7,12 +7,17 @@ use App\Models\Pesanan;
 use App\Traits\WaSender;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use function PHPUnit\Framework\isNull;
 
 class NotificationController extends Controller
 {
     use WaSender;
+    protected $log;
+    public function __construct(){
+        $this->log = \Log::channel('kirim_notif');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -126,10 +131,11 @@ class NotificationController extends Controller
                     $message .= "\n\n";
                     $message .= "*Harmony Laundry*";
 
-
+                    $this->log->info(Carbon::now()->toDateTimeLocalString() . " - Mencoba kirim Invoice");
                     $notif = $this->notify($message, $pesanan->customer->telpon);
 
                     $notif = json_decode($notif);
+                    $this->log-info(Carbon::now()->toDateTimeLocalString() . " - Reponse Invoice", $notif);
                     // dd($notif);
 
                     // if(isset($notif->message_status) )
@@ -160,8 +166,8 @@ class NotificationController extends Controller
                     $cekPesan = $pesanan->customer->pesananPayable()->where('kode_pesan', '!=', $pesanan->kode_pesan)->get();
                     // dd(!empty($cekPesan) && count($cekPesan) > 0);
                     $kodePesan = $pesanan->kode_pesan;
-                    $waktuPesanSekarang = Carbon::parse($value->tanggal_pesan)->locale('id')->translatedFormat('H:i l, j F Y');
-                    $tagihanSekarang = number_format($value->total_harga, '0', ',','.');
+                    $waktuPesanSekarang = Carbon::parse($pesanan->tanggal_pesan)->locale('id')->translatedFormat('H:i l, j F Y');
+                    $tagihanSekarang = number_format($pesanan->total_harga, '0', ',','.');
                     // dd(count($pesanan->customer->pesananPayable($pesanan->kode_pesan)->get()));
                     if(!empty($pesanan->customer->pesananPayable($kodePesan)->get()) && count($pesanan->customer->pesananPayable($kodePesan)->get()) > 0){
                         $messageTagihan = "";
@@ -269,10 +275,12 @@ class NotificationController extends Controller
                     $message .= "\n\n";
                     $message .= "*Harmony Laundry*";
 
-
+                    $this->log->info(Carbon::now()->toDateTimeLocalString() . " - Mencoba kirim notifikasi ke pelanggan");
                     $notif = $this->notify($message, $pesanan->customer->telpon);
-
+            
+                    
                     $notif = json_decode($notif);
+                    $this->log->info(Carbon::now()->toDateTimeLocalString() . " - Respon Notifikasi : ");
 
                     // if(isset($notif->message_status) )
                     if($notif->error == false)

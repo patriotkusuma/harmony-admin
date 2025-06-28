@@ -224,7 +224,11 @@ class PembayaranController extends Controller
                 'message'=> "Notifikasi Tidak ditemukan"
             ],404);
         }
-        $customer = Customer::where('telpon', $sender)->first();
+        $customer = Customer::where('telpon', $sender)
+            ->whereHas('pesanan', function($query){
+                $query->where('status_pembayaran', 'Belum Lunas');
+            })
+            ->first();
         
         if(!$customer){
             return response()->json([

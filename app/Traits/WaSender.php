@@ -4,6 +4,7 @@ namespace App\Traits;
 
 trait WaSender
 {
+
     public function notify($message, $phone)
     {
         $curl = curl_init();
@@ -58,8 +59,11 @@ trait WaSender
 
 
         $response = curl_exec($curl);
+        // \Log::channel('kirim_notif')->info('Response :', $response);
         if(curl_errno($curl)) {
             $error_msg = curl_error($curl);
+            \Log::channel('kirim_notif')->error('Response :', $error_msg);
+
         }
 
         curl_close($curl);

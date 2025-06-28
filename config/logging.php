@@ -136,6 +136,11 @@ return [
             'path' => storage_path('logs/whatsapp_message.log'),
             'level' => 'debug'
         ],
+        'kirim_notif' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/kirim_notif.log'),
+            'level' => 'debug'
+        ],
     ],
 
 ];
